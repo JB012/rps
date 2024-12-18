@@ -1,4 +1,13 @@
-const prompt = require("prompt-sync")();
+const rockButton = document.querySelector("#rock");
+const paperButton = document.querySelector("#paper");
+const scissorsButton = document.querySelector("#scissors");
+
+let text = document.createElement("p");
+text.id = "toptext";
+text.textContent = "Pick an option";
+let humanChoice = "";
+
+document.body.appendChild(text);
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -11,49 +20,49 @@ function getComputerChoice() {
     return result;
 }
 
-function getHumanChoice() {
-    let humanChoice = prompt("Pick either rock, paper, or scissors: ");
-    humanChoice = humanChoice.toLowerCase();
-
-    if (humanChoice === 'rock' || humanChoice === 'paper' || humanChoice === 'scissors') {
-        return humanChoice;
-    }
-
-    getHumanChoice();
-}
-
 function playRounds() {
-    console.clear();
-    
+    text = document.querySelector("p");
+
     let wins = 0;
     let computerWins = 0;
     let round = 1;
 
-    while (wins < 2 && computerWins < 2) {    
-        let humanChoice = getHumanChoice();
-        let computerChoice = getComputerChoice();
+    let computerChoice = getComputerChoice();
 
-        const winningRules = {
-            'paper': 'rock',
-            'scissors' : 'paper',
-            'rock' : 'scissors'
-        };
+    const winningRules = {
+        'paper': 'rock',
+        'scissors' : 'paper',
+        'rock' : 'scissors'
+    };
 
-        if (winningRules[humanChoice] === computerChoice) {
-            console.log(`You wins round ${round}!`);
-            wins += 1;
-        }
-        else {
-            console.log(`Computer wins round ${round}`);
-            computerWins += 1;
-        }
-
-        round += 1;
+    if (winningRules[humanChoice] === computerChoice) {
+        text.textContent = `You wins round ${round}!`;
+        wins += 1;
+    }
+    else {
+        text.textContent = `Computer wins round ${round}`;
+        computerWins += 1;
     }
 
-    computerWins > wins ? console.log("Computer has won the game!") 
-    : console.log("You win the game!");
+  
+
+computerWins > wins ? text.textContent = "Computer has won the game!" 
+: text.textContent = "You win the game!";
 }
 
 
-playRounds();
+rockButton.addEventListener("click", () => {
+    text.textContent = "Chose rock";
+    humanChoice = "rock";
+    playRounds();
+});
+
+paperButton.addEventListener(() => {
+    humanChoice = "paper";
+    playRounds();
+})
+
+scissorsButton.addEventListener(() => {
+    humanChoice = "scissors";
+    playRounds();
+})
