@@ -2,12 +2,17 @@ const rockButton = document.querySelector("#rock");
 const paperButton = document.querySelector("#paper");
 const scissorsButton = document.querySelector("#scissors");
 
-let text = document.createElement("p");
-text.id = "toptext";
-text.textContent = "Pick an option";
-let humanChoice = "";
+let playerScore = document.querySelector("#score");
+let computerScore = document.querySelector("#c-score");
+let container = document.createElement("div");
+document.body.appendChild(container);
 
-document.body.appendChild(text);
+let humanChoice = "";
+let wins = 0;
+let computerWins = 0;
+
+let text = document.createElement("div");
+text.style.textAlign = "center";
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -16,53 +21,53 @@ function getRandomInt(max) {
 function getComputerChoice() {
     const choices = ["rock", "paper", "scissors"];
     const result = choices[getRandomInt(3)];
-    console.log(`Computer chooses: ${result}`);
     return result;
 }
 
 function playRounds() {
-    text = document.querySelector("p");
+    if (wins < 5 && computerWins < 5) {
+        let computerChoice = getComputerChoice();
 
-    let wins = 0;
-    let computerWins = 0;
-    let round = 1;
+        const winningRules = {
+            'paper': 'rock',
+            'scissors' : 'paper',
+            'rock' : 'scissors'
+        };
 
-    let computerChoice = getComputerChoice();
+        if (winningRules[humanChoice] === computerChoice) {
+            wins += 1;
+            playerScore.textContent = wins;
+            text.textContent = `You win! ${humanChoice} beats ${computerChoice}.`;
+        }
+        else if (winningRules[computerChoice] === humanChoice){
+            computerWins += 1;
+            computerScore.textContent = computerWins;
+            text.textContent = `Computer has won! ${computerChoice} beats ${humanChoice}.`;
+        }
 
-    const winningRules = {
-        'paper': 'rock',
-        'scissors' : 'paper',
-        'rock' : 'scissors'
-    };
+        if (wins == 5) {
+            text.textContent = "You won the game!";
+        }
+        else if (computerWins == 5) {
+            text.textContent = "Computer has won the game!";
+        }
 
-    if (winningRules[humanChoice] === computerChoice) {
-        text.textContent = `You wins round ${round}!`;
-        wins += 1;
+        container.appendChild(text);
     }
-    else {
-        text.textContent = `Computer wins round ${round}`;
-        computerWins += 1;
-    }
-
-  
-
-computerWins > wins ? text.textContent = "Computer has won the game!" 
-: text.textContent = "You win the game!";
 }
 
 
 rockButton.addEventListener("click", () => {
-    text.textContent = "Chose rock";
     humanChoice = "rock";
     playRounds();
 });
 
-paperButton.addEventListener(() => {
+paperButton.addEventListener("click", () => {
     humanChoice = "paper";
     playRounds();
 })
 
-scissorsButton.addEventListener(() => {
+scissorsButton.addEventListener("click", () => {
     humanChoice = "scissors";
     playRounds();
 })

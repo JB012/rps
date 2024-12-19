@@ -3,12 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
-    <button id="rock">Rock</button>
-    <button id="paper">Paper</button>
-    <button id="scissors">Scissors</button>
+    <div class="scores">
+        <div>
+            <div>Your score</div>
+            <div id="score">0</div>
+        </div>
+        <div>
+            <div>Computer's score</div>
+            <div id="c-score">0</div>
+        </div>
+    </div>
+    <div class="options">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+    </div>
     <script src="main.js"></script> <!--HTML is loaded from top to bottom so script has to be last line in body-->
 </body>
 </html>
